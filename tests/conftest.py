@@ -64,11 +64,9 @@ def model_name():
     return available_models[0]
 
 
-# FIXME: allow for the code to generate fixtures with either insecure or secure
-# connections
-@pytest.fixture(scope="session")
-def insecure() -> bool:
-    return False
+@pytest.fixture(autouse=True, scope="session", params=[True, False])
+def insecure(request):
+    yield request.param
 
 
 @pytest.fixture(scope="session")
